@@ -31,12 +31,12 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.lisStatus = new System.Windows.Forms.ListBox();
             this.butBrowse = new System.Windows.Forms.Button();
-            this.texFileIn = new System.Windows.Forms.TextBox();
+            this.texDir = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.butProcess = new System.Windows.Forms.Button();
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.label2 = new System.Windows.Forms.Label();
             this.texCitnum = new System.Windows.Forms.TextBox();
+            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.SuspendLayout();
             // 
             // lisStatus
@@ -57,21 +57,21 @@
             this.butBrowse.UseVisualStyleBackColor = true;
             this.butBrowse.Click += new System.EventHandler(this.button1_Click);
             // 
-            // texFileIn
+            // texDir
             // 
-            this.texFileIn.Location = new System.Drawing.Point(64, 10);
-            this.texFileIn.Name = "texFileIn";
-            this.texFileIn.Size = new System.Drawing.Size(369, 20);
-            this.texFileIn.TabIndex = 2;
+            this.texDir.Location = new System.Drawing.Point(64, 10);
+            this.texDir.Name = "texDir";
+            this.texDir.Size = new System.Drawing.Size(369, 20);
+            this.texDir.TabIndex = 2;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(9, 13);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(53, 13);
+            this.label1.Size = new System.Drawing.Size(52, 13);
             this.label1.TabIndex = 3;
-            this.label1.Text = "Input File:";
+            this.label1.Text = "Directory:";
             // 
             // butProcess
             // 
@@ -82,10 +82,6 @@
             this.butProcess.Text = "Process";
             this.butProcess.UseVisualStyleBackColor = true;
             this.butProcess.Click += new System.EventHandler(this.butProcess_Click);
-            // 
-            // openFileDialog1
-            // 
-            this.openFileDialog1.FileName = "openFileDialog1";
             // 
             // label2
             // 
@@ -112,7 +108,7 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.butProcess);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.texFileIn);
+            this.Controls.Add(this.texDir);
             this.Controls.Add(this.butBrowse);
             this.Controls.Add(this.lisStatus);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -129,12 +125,12 @@
 
         private System.Windows.Forms.ListBox lisStatus;
         private System.Windows.Forms.Button butBrowse;
-        private System.Windows.Forms.TextBox texFileIn;
+        private System.Windows.Forms.TextBox texDir;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button butProcess;
-        private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox texCitnum;
+        private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
     }
 }
 

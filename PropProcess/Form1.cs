@@ -17,80 +17,80 @@ namespace PropProcess
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Status("Opening the file dialog.");
-            OpenFileDialog openFileDialog1 = new OpenFileDialog();
-
-            openFileDialog1.InitialDirectory = System.Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-            openFileDialog1.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
-            openFileDialog1.FilterIndex = 2;
-            openFileDialog1.RestoreDirectory = true;
-            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            Status("Opening the folder dialog.");
+            FolderBrowserDialog openDir = new FolderBrowserDialog();
+            openDir.RootFolder = Environment.SpecialFolder.Desktop;
+            
+            if (openDir.ShowDialog() == DialogResult.OK)
             {
                 try
                 {
-                    // Place the filename into the text box
-                    texFileIn.Text = openFileDialog1.FileName;
-                    Status("Filepath: '" + texFileIn.Text + "' was selected.");
+                    // Place the dir into the text box
+                    texDir.Text = openDir.SelectedPath;
+                    Status("Directory: '" + texDir.Text + "' was selected.");
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Error: Could not read file from disk. Original error: " + ex.Message);
+                    MessageBox.Show("Error: Could not read directory from disk. Original error: " + ex.Message);
                 }
             }
         }
 
         private void butProcess_Click(object sender, EventArgs e)
         {
-            // Check to see if the file textbox contains a usable file, abort if not
-            string sFile = texFileIn.Text;
-            if (!File.Exists(sFile))
-            {
-                Status("The file doesn't exist.");
-                return;
-            }
 
-            // Begin processing
+            int counter = 0;
+            string line;
+            var lineCount = 0;
 
-            // What you should do is read each line from the file and process as you go
-            // Do things like, keep a tab of unique citnums and how many objects they created
+            // What you should do is read each line from each file and process as you go
+            // Later, do things like, keep a tab of unique citnums and how many objects they created
             // Get number of unique objects and how many of each is used
 
             // Remember that the first line in a propdump file is a version string.
             // This is useful for determining if the file is indeed a propdump.
 
+            // Get all files from the specified dir
+            string sDir = texDir.Text;
+            string[] sFiles = Directory.GetFiles(sDir);
+
             // Read the citnum from the citnum textbox
             string sCitnum = texCitnum.Text;
 
-
-            // Get the number of lines in the file
-            var lineCount = File.ReadAllLines(sFile).Length;
-            Status("There are " + lineCount + " lines in the file you chose.");
-
-            // variables for the iteration
-            int counter = 0;
-            string line;
-
-            // Iteration
-            System.IO.StreamReader file = new System.IO.StreamReader(sFile);
-
-            while((line = file.ReadLine()) != null)
+            // Begin processing all files
+            foreach (string sFile in sFiles)
             {
+                // Get the number of lines in the file
+                lineCount = File.ReadAllLines(sFile).Length;
+                Status("There are " + lineCount + " lines in the file you chose.");
 
-                // Get the citnum of the line
-                //Status(ReturnCitnum(line));
 
-                if (ReturnCitnum(line) == sCitnum)
+
+                // variables for the iteration
+                counter = 0;
+                
+                // Iteration
+                System.IO.StreamReader file = new System.IO.StreamReader(sFile);
+
+                while ((line = file.ReadLine()) != null)
                 {
-                    using (System.IO.StreamWriter outfile = new System.IO.StreamWriter(@"C:\Users\Shawn\Desktop\citnumlog.txt", true))
+
+                    // Get the citnum of the line
+                    //Status(ReturnCitnum(line));
+
+                    if (ReturnCitnum(line) == sCitnum)
                     {
-                        outfile.WriteLine(line);
+                        using (System.IO.StreamWriter outfile = new System.IO.StreamWriter(sDir + "\\output.txt", true))
+                        {
+                            outfile.WriteLine(line);
+                        }
                     }
+
+
+                    counter++;
                 }
-
-
-                counter++;
+                file.Close();
             }
-            file.Close();
 
         }
 
