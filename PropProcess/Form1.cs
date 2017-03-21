@@ -57,21 +57,20 @@ namespace PropProcess
             // Read the citnum from the citnum textbox
             string sCitnum = texCitnum.Text;
 
+            // Open the output file for writing
+            System.IO.StreamWriter outfile = new System.IO.StreamWriter(sDir + "\\output.txt", true);
+
             // Begin processing all files
             foreach (string sFile in sFiles)
             {
                 // Get the number of lines in the file
                 lineCount = File.ReadAllLines(sFile).Length;
+                Status("Reading file: " + sFile);
                 Status("There are " + lineCount + " lines in the file you chose.");
-
-
-
-                // variables for the iteration
-                counter = 0;
-                
+                                
                 // Iteration
                 System.IO.StreamReader file = new System.IO.StreamReader(sFile);
-
+             
                 while ((line = file.ReadLine()) != null)
                 {
 
@@ -80,17 +79,14 @@ namespace PropProcess
 
                     if (ReturnCitnum(line) == sCitnum)
                     {
-                        using (System.IO.StreamWriter outfile = new System.IO.StreamWriter(sDir + "\\output.txt", true))
-                        {
-                            outfile.WriteLine(line);
-                        }
+                        outfile.WriteLine(line);
                     }
 
-
-                    counter++;
                 }
                 file.Close();
+                
             }
+            outfile.Close();
 
         }
 
