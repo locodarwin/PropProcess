@@ -50,6 +50,8 @@ namespace PropProcess
             // Remember that the first line in a propdump file is a version string.
             // This is useful for determining if the file is indeed a propdump.
 
+            // when done, save, dummy.
+
             // Get all files from the specified dir
             string sDir = texDir.Text;
             string[] sFiles = Directory.GetFiles(sDir);
