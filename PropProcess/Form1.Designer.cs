@@ -42,14 +42,14 @@
             // lisStatus
             // 
             this.lisStatus.FormattingEnabled = true;
-            this.lisStatus.Location = new System.Drawing.Point(2, 85);
+            this.lisStatus.Location = new System.Drawing.Point(6, 87);
             this.lisStatus.Name = "lisStatus";
-            this.lisStatus.Size = new System.Drawing.Size(512, 277);
+            this.lisStatus.Size = new System.Drawing.Size(602, 251);
             this.lisStatus.TabIndex = 0;
             // 
             // butBrowse
             // 
-            this.butBrowse.Location = new System.Drawing.Point(439, 8);
+            this.butBrowse.Location = new System.Drawing.Point(533, 8);
             this.butBrowse.Name = "butBrowse";
             this.butBrowse.Size = new System.Drawing.Size(75, 23);
             this.butBrowse.TabIndex = 1;
@@ -61,7 +61,7 @@
             // 
             this.texDir.Location = new System.Drawing.Point(64, 10);
             this.texDir.Name = "texDir";
-            this.texDir.Size = new System.Drawing.Size(369, 20);
+            this.texDir.Size = new System.Drawing.Size(463, 20);
             this.texDir.TabIndex = 2;
             // 
             // label1
@@ -103,7 +103,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(519, 366);
+            this.ClientSize = new System.Drawing.Size(616, 345);
             this.Controls.Add(this.texCitnum);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.butProcess);
@@ -111,6 +111,7 @@
             this.Controls.Add(this.texDir);
             this.Controls.Add(this.butBrowse);
             this.Controls.Add(this.lisStatus);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
