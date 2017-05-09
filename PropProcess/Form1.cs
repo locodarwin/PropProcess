@@ -2,16 +2,31 @@
 using System.Windows.Forms;
 using System.IO;
 using System.Text.RegularExpressions;
-
+using System.Threading;
+using System.ComponentModel;
 
 namespace PropProcess
 {
 
     public partial class Form1 : Form
     {
+
+        private readonly BackgroundWorker worker;
+
         public Form1()
         {
             InitializeComponent();
+
+
+            // Create the background worker object, enable it to report progress,
+            // And then assign the mrhods that are called to do the work, handle the progress updates,
+            // And provide tasks that run when the background worker completes.
+            worker = new BackgroundWorker();
+            worker.WorkerReportsProgress = true;
+            worker.DoWork += Process;
+            worker.ProgressChanged += worker_ProgressChanged;
+            worker.RunWorkerCompleted += worker_RunWorkerCompleted;
+
         }
 
 
@@ -39,18 +54,18 @@ namespace PropProcess
         private void butProcess_Click(object sender, EventArgs e)
         {
 
-            int counter = 0;
+            worker.RunWorkerAsync();
+            butProcess.Enabled = false;
+
+        }
+
+        private void Process(object sender, DoWorkEventArgs e)
+        {
+
+            // Assign
+            BackgroundWorker bgWorker = (BackgroundWorker)sender;
+
             string line;
-            var lineCount = 0;
-
-            // What you should do is read each line from each file and process as you go
-            // Later, do things like, keep a tab of unique citnums and how many objects they created
-            // Get number of unique objects and how many of each is used
-
-            // Remember that the first line in a propdump file is a version string.
-            // This is useful for determining if the file is indeed a propdump.
-
-            // when done, save, dummy.
 
             // Get all files from the specified dir
             string sDir = texDir.Text;
@@ -62,22 +77,21 @@ namespace PropProcess
             // Open the output file for writing
             System.IO.StreamWriter outfile = new System.IO.StreamWriter(sDir + "\\output.txt", true);
 
+            bgWorker.ReportProgress(0, "Processing...");
+
             // Begin processing all files
             foreach (string sFile in sFiles)
             {
-                // Get the number of lines in the file
-                lineCount = File.ReadAllLines(sFile).Length;
-                Status("Reading file: " + sFile);
-                Status("There are " + lineCount + " lines in the file you chose.");
-                                
+
+                bgWorker.ReportProgress(0, "Reading file: " + sFile);
+
                 // Iteration
                 System.IO.StreamReader file = new System.IO.StreamReader(sFile);
-             
+
                 while ((line = file.ReadLine()) != null)
                 {
 
                     // Get the citnum of the line
-                    //Status(ReturnCitnum(line));
 
                     if (ReturnCitnum(line) == sCitnum)
                     {
@@ -86,7 +100,7 @@ namespace PropProcess
 
                 }
                 file.Close();
-                
+
             }
             outfile.Close();
 
@@ -104,14 +118,25 @@ namespace PropProcess
         }
 
 
-        public static class Globals
+        //public static class Globals
+        //{
+        //    public static string sTest = "This is a string";
+        //}
+
+        void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            public static string sTest = "This is a string";
+            butProcess.Enabled = true;
         }
 
         private void Status(string sStatusText)
         {
             lisStatus.Items.Add(sStatusText);
+        }
+
+        private void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+
+            lisStatus.Items.Add(e.UserState.ToString());
         }
 
         // Convert Unix timestamp to Windows DateTime
@@ -139,9 +164,5 @@ namespace PropProcess
 
     }
 
-    class Builders
-    {
-        public int iCitnum;
-        public int iNumobj;
-    }
+
 }
